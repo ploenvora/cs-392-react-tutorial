@@ -23,16 +23,9 @@
 
 .info {
     flex: 3;
+    border-bottom: 0.15em solid lightgray;
 }
 
 .meets {
     flex: 1;
 }
-
-.divider {
-    width: 100%;
-    height: 2px;
-    background-color: lightgray;
-    margin: 0.25em 0;
-}
-

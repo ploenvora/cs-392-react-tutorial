@@ -1,4 +1,4 @@
-import styles from "./Banner.module.css";
+import styles from "./CourseList.module.css";
 
 const CourseList = (props) => {
     return (
@@ -13,7 +13,6 @@ const CourseList = (props) => {
                             {courseDetails.title}
                         </p>
                     </div>
-                    <div className={styles.divider}></div>
                     <div className={styles.meets}>
                         <p>
                             {courseDetails.meets}
