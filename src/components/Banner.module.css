@@ -1,0 +1,38 @@
+.course {
+    grid-column: span 1;
+    border: 0.15em solid lightgray;
+    border-radius: 0.5em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0.5rem;
+}
+
+.courses {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0.5rem;
+}
+
+@media only screen and (max-width: 700px) {
+    .courses {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    }
+}
+
+.info {
+    flex: 3;
+}
+
+.meets {
+    flex: 1;
+}
+
+.divider {
+    width: 100%;
+    height: 2px;
+    background-color: lightgray;
+    margin: 0.25em 0;
+}
+

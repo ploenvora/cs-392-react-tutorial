@@ -1,10 +1,25 @@
+import styles from "./Banner.module.css";
+
 const CourseList = (props) => {
     return (
-        <div>
+        <div className={styles.courses}>
             {Object.entries(props.courses).map(([courseCode, courseDetails]) => (
-                <p key={courseCode}>
-                    {courseDetails.term} CS {courseCode}: {courseDetails.title}
-                </p>
+                <div key={courseCode} className={styles.course}>
+                    <div className={styles.info}>
+                        <h2>
+                            {courseDetails.term} CS {courseCode}
+                        </h2>
+                        <p>
+                            {courseDetails.title}
+                        </p>
+                    </div>
+                    <div className={styles.divider}></div>
+                    <div className={styles.meets}>
+                        <p>
+                            {courseDetails.meets}
+                        </p>
+                    </div>
+                </div>
             ))}
         </div>
     )
