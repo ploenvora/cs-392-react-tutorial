@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Banner from './components/Banner';
 import CourseList from './components/CourseList';
+import { useJsonQuery } from './utilities/fetch';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const schedule = {
   "title": "CS Courses for 2018-2019",
@@ -34,11 +36,15 @@ const schedule = {
   }
 };
 
+const queryClient = new QueryClient()
+
 const App = () => {
   return (
     <Fragment>
-      <Banner title={schedule.title}></Banner>
-      <CourseList courses={schedule.courses}></CourseList>
+      <QueryClientProvider client={queryClient}>
+        <Banner title={schedule.title}></Banner>
+        <CourseList courses={schedule.courses}></CourseList>
+      </QueryClientProvider>
     </Fragment>
   )
 };
