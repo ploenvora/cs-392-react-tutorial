@@ -29,3 +29,7 @@
 .meets {
     flex: 1;
 }
+
+.dropdown {
+    margin: 1rem;
+}
