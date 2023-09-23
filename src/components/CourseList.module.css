@@ -1,39 +1,54 @@
-.course {
-    grid-column: span 1;
-    border: 0.15em solid lightgray;
-    border-radius: 0.5em;
-    padding: 1em;
+.topbar {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    margin: 0.5rem;
 }
 
-.selected {
-    background-color: lavenderblush;
-}
-
-.courses {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin: 0.5rem;
-}
-
-@media only screen and (max-width: 700px) {
-    .courses {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    }
-}
-
-.info {
-    flex: 3;
-    border-bottom: 0.15em solid lightgray;
-}
-
-.meets {
-    flex: 1;
+.button {
+    background-color: lavender;
+    color: black;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    margin: 0.75rem 1rem;
 }
 
 .dropdown {
     margin: 1rem;
+    font-size: 15px;
+}
+
+.course {
+  grid-column: span 1;
+  border: 0.15em solid lightgray;
+  border-radius: 0.5em;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0.5rem;
+}
+
+.selected {
+  background-color: lavenderblush;
+}
+
+.courses {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0.5rem;
+}
+
+@media only screen and (max-width: 700px) {
+  .courses {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  }
+}
+
+.info {
+  flex: 3;
+  border-bottom: 0.15em solid lightgray;
+}
+
+.meets {
+  flex: 1;
 }

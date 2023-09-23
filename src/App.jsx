@@ -1,12 +1,12 @@
-import { useState, Fragment } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Banner from './components/Banner';
-import CourseList from './components/CourseList';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState, Fragment } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Banner from "./components/Banner";
+import CourseList from "./components/CourseList";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient()
-const title = "CS Courses for 2018-2019"
+const queryClient = new QueryClient();
+const title = "CS Courses for 2018-2019";
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
         <CourseList></CourseList>
       </QueryClientProvider>
     </Fragment>
-  )
+  );
 };
 
 export default App;
