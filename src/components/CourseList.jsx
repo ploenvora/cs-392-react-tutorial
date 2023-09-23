@@ -1,6 +1,7 @@
 import styles from "./CourseList.module.css";
 import { useJsonQuery } from "../utilities/fetch";
 import { useState } from "react";
+import Course from "./Course";
 
 const FilterDropdown = ({selectedTerm, setSelectedTerm}) => (
     <div className={styles.dropdown}>
@@ -11,17 +12,26 @@ const FilterDropdown = ({selectedTerm, setSelectedTerm}) => (
           onChange={e => setSelectedTerm(e.target.value)}
       >
           <option value="Fall">Fall</option>
+          <option value="Winter">Winter</option>
           <option value="Spring">Spring</option>
-          <option value="Winter">Winter</option> {/* Corrected the display text */}
       </select>
     </div>
 );
 
 const CourseList = (props) => {
-    const [term, setTerm] = useState("Fall");
-
     const url = "https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php";
     const [ data, isLoading, error ] = useJsonQuery(url);
+
+    const [term, setTerm] = useState("Fall");
+    const [selected, setSelected] = useState([]);
+
+    const toggleSelected = (item) => setSelected(
+        selected.includes(item)
+        ? selected.filter(x => x !== item)
+        : [...selected, item]
+    );
+
+    console.log(selected)
 
     return (
         <div>
@@ -31,21 +41,7 @@ const CourseList = (props) => {
                     {Object.entries(data.courses)
                         .filter(([courseCode, courseDetails]) => courseDetails.term === term)
                         .map(([courseCode, courseDetails]) => (
-                        <div key={courseCode} className={styles.course}>
-                            <div className={styles.info}>
-                                <h2>
-                                    {courseDetails.term} CS {courseCode}
-                                </h2>
-                                <p>
-                                    {courseDetails.title}
-                                </p>
-                            </div>
-                            <div className={styles.meets}>
-                                <p>
-                                    {courseDetails.meets}
-                                </p>
-                            </div>
-                        </div>
+                        <Course key={courseCode} courseCode={courseCode} courseDetails={courseDetails} selected={selected} toggleSelected={toggleSelected}></Course>
                     ))}
                 </div>
             ) : <p>Loading...</p>}

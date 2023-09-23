@@ -9,6 +9,10 @@
     margin: 0.5rem;
 }
 
+.selected {
+    background-color: lavenderblush;
+}
+
 .courses {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
