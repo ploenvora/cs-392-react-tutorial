@@ -32,6 +32,10 @@
   background-color: lavenderblush;
 }
 
+.conflicted {
+    background-color: gainsboro;
+}
+
 .courses {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

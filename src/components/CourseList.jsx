@@ -1,6 +1,7 @@
 import styles from "./CourseList.module.css";
 import { useJsonQuery } from "../utilities/fetch";
-import { useState } from "react";
+import { haveTimeConflict } from "../utilities/timeConflict";
+import { useState, useEffect } from "react";
 import Course from "./Course";
 import Modal from "./Modal";
 
@@ -32,22 +33,59 @@ const CourseList = (props) => {
 
   const [term, setTerm] = useState("Fall");
   const [selected, setSelected] = useState([]);
+  const [conflicted, setConflicted] = useState([]);
   const [open, setOpen] = useState(false);
 
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
 
+  const findConflicts = (selected, courses, haveTimeConflict) => {
+    const courseKeys = Object.keys(courses);
+    const conflictingCourses = [];
+    for (const key of courseKeys) {
+      const course1 = {
+        courseCode: key,
+        courseDetails: courses[key],
+      };
+      if (
+        !selected.some(
+          (course2) =>
+            course2.courseCode === course1.courseCode &&
+            course2.courseDetails === course1.courseDetails
+        )
+      ) {
+        for (const course2 of selected) {
+          if (haveTimeConflict(course1, course2)) {
+            conflictingCourses.push(course1);
+            break;
+          }
+        }
+      }
+    }
+    setConflicted(conflictingCourses);
+  };
+
   const toggleSelected = (courseCode, courseDetails) => {
     if (selected.some((item) => item.courseCode === courseCode)) {
       setSelected(selected.filter((item) => item.courseCode !== courseCode));
     } else {
-      setSelected([
-        ...selected,
-        { courseCode: courseCode, courseDetails: courseDetails },
-      ]);
+      const isConflicted = conflicted.some(
+        (item) => item.courseCode === courseCode
+      );
+      if (!isConflicted) {
+        setSelected([
+          ...selected,
+          { courseCode: courseCode, courseDetails: courseDetails },
+        ]);
+      }
     }
   };
 
+  useEffect(() => {
+    if (data && data.courses) {
+      findConflicts(selected, data.courses, haveTimeConflict);
+    }
+  }, [selected, data]);
 
   return (
     <div>
@@ -69,6 +107,7 @@ const CourseList = (props) => {
                 courseDetails={courseDetails}
                 selected={selected}
                 toggleSelected={toggleSelected}
+                conflicted={conflicted}
               ></Course>
             ))}
         </div>

@@ -1,12 +1,25 @@
 import styles from "./CourseList.module.css";
 
-const Course = ({ courseCode, courseDetails, selected, toggleSelected }) => {
+const Course = ({
+  courseCode,
+  courseDetails,
+  selected,
+  toggleSelected,
+  conflicted,
+}) => {
   return (
     <div
       onClick={() => toggleSelected(courseCode, courseDetails)}
       className={`${styles.course} ${
         selected.some((selectedItem) => selectedItem.courseCode === courseCode)
           ? styles.selected
+          : ""
+      }
+      ${
+        conflicted.some(
+          (conflictedItem) => conflictedItem.courseCode === courseCode
+        )
+          ? styles.conflicted
           : ""
       }`}
     >
