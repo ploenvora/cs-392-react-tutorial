@@ -1,0 +1,15 @@
+.button {
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  transition: background-color 0.2s, color 0.2s;
+  background-color: lightgreen;
+  padding: 5px;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-left: 1rem;
+}
