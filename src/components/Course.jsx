@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./CourseList.module.css";
-import CourseEditor from "./CourseEditor"; // Import the CourseEditor component
+import CourseEditor from "./CourseEditor";
 
 const Course = ({
   courseCode,
@@ -28,11 +28,11 @@ const Course = ({
     }));
   };
 
-  const handleOnSubmit = () => {
-  }
+  const handleOnSubmit = () => {};
 
   return (
     <div
+      onClick={() => toggleSelected(courseCode, courseDetails)}
       className={`${styles.course} ${
         selected.some((selectedItem) => selectedItem.courseCode === courseCode)
           ? styles.selected
