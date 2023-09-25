@@ -1,79 +1,75 @@
-import { useState } from "react";
+import { useDbUpdate } from "../utilities/firebase";
+import { useFormData } from "../utilities/useFormData";
+import { useNavigate } from "react-router-dom";
+import styles from "./CourseEditor.module.css";
 
-const CourseEditor = ({
-  course,
-  closeEditor,
-  handleInputChange,
-  handleOnSubmit,
-}) => {
-  const [errors, setErrors] = useState({});
+const validateUserData = (key, value) => {
+  switch (key) {
+    case "title":
+      return value.length >= 2 ? "" : "Title must be at least two characters.";
+    case "meets":
+      const meetsPattern =
+        /^[A-Za-z]{3,5} (?:[01]\d|2[0-3]):[0-5]\d-[01]\d|2[0-3]:[0-5]\d$/;
+      return meetsPattern.test(value)
+        ? ""
+        : "Meeting time must have a valid format, e.g., 'MWF 12:00-13:20'.";
+    default:
+      return "";
+  }
+};
 
-  const validateTitle = (value) => {
-    if (value.length < 2) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        title: "Title must be at least two characters.",
-      }));
-    } else {
-      setErrors((prevErrors) => {
-        const { title, ...rest } = prevErrors;
-        return rest;
-      });
+const InputField = ({ name, text, state, change }) => (
+  <div>
+    <label className={styles.label} htmlFor={name}>{text}</label>
+    <input
+      id={name}
+      name={name}
+      defaultValue={state.values?.[name]}
+      onChange={change}
+      className={styles.input}
+    />
+    <div>{state.errors?.[name]}</div>
+  </div>
+);
+
+const ButtonBar = ({ message, disabled, onCancel }) => {
+  const navigate = useNavigate();
+  return (
+    <div className={styles.button}>
+      <button type="button" onClick={() => onCancel()} className={styles.cancel}>
+        Cancel
+      </button>
+      <button type="submit" disabled={disabled} className={styles.submit}>
+        Submit
+      </button>
+      <br></br>
+      <span className={styles.message}>{message}</span>
+    </div>
+  );
+};
+
+const CourseEditor = ({ courseCode, courseDetails, onCancel }) => {
+  const [update, result] = useDbUpdate(`/courses/${courseCode}`);
+
+  const [state, change] = useFormData(validateUserData, courseDetails);
+
+  const submit = (evt) => {
+    evt.preventDefault();
+    if (!state.errors) {
+      update(state.values);
     }
-  };
-
-  const validateMeets = (value) => {
-    const meetsPattern =
-      /^[A-Za-z]{3,5} (?:[01]\d|2[0-3]):[0-5]\d-[01]\d|2[0-3]:[0-5]\d$/;
-    if (!meetsPattern.test(value)) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        meets:
-          "Meeting time must have a valid format, e.g., 'MWF 12:00-13:20'.",
-      }));
-    } else {
-      setErrors((prevErrors) => {
-        const { meets, ...rest } = prevErrors;
-        return rest;
-      });
-    }
-  };
-
-  const handleTitleChange = (e) => {
-    e.stopPropagation();
-    validateTitle(e.target.value);
-    handleInputChange(e);
-  };
-
-  const handleMeetsChange = (e) => {
-    e.stopPropagation();
-    validateMeets(e.target.value);
-    handleInputChange(e);
   };
 
   return (
-    <div>
-      <form onSubmit={(e) => handleOnSubmit(e)}>
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={course.title}
-          onChange={handleTitleChange}
-        />
-        {errors.title && <p>{errors.title}</p>}
-        <input
-          type="text"
-          name="meets"
-          placeholder="Meeting times"
-          value={course.meets}
-          onChange={handleMeetsChange}
-        />
-        {errors.meets && <p>{errors.meets}</p>}
-        <button onClick={closeEditor}>Cancel</button>
-        <button type="submit">Save</button>
-      </form>
-    </div>
+    <form onSubmit={submit} className={styles.form} noValidate={state.errors ? "novalidate" : null}>
+      <InputField name="title" text="Title" state={state} change={change} />
+      <InputField name="meets" text="Meets" state={state} change={change} />
+      <ButtonBar
+        message={result?.message}
+        disabled={state.errors}
+        onCancel={onCancel}
+      />
+    </form>
   );
 };
 

@@ -1,20 +1,20 @@
 .topbar {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .button {
-    background-color: lavender;
-    color: black;
-    font-size: 15px;
-    border: none;
-    border-radius: 5px;
-    margin: 0.75rem 1rem;
+  background-color: lavender;
+  color: black;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  margin: 0.75rem 1rem;
 }
 
 .dropdown {
-    margin: 1rem;
-    font-size: 15px;
+  margin: 1rem;
+  font-size: 15px;
 }
 
 .course {
@@ -33,7 +33,7 @@
 }
 
 .conflicted {
-    background-color: gainsboro;
+  background-color: gainsboro;
 }
 
 .courses {
@@ -55,4 +55,36 @@
 
 .meets {
   flex: 1;
+}
+
+.editbutton {
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: PALEVIOLETRED;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 20px;
+}
+
+.editbutton:hover {
+  background-color: #ccc;
+}
+
+.addbutton {
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: PALETURQUOISE;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 20px;
+}
+
+.addbutton:hover {
+  background-color: lightseagreen;
 }

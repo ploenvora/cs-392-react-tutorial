@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./CourseList.module.css";
 import CourseEditor from "./CourseEditor";
+import CourseCard from "./CourseCard";
 
 const Course = ({
   courseCode,
@@ -10,7 +11,6 @@ const Course = ({
   conflicted,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedCourse, setEditedCourse] = useState(courseDetails);
   const [added, setAdded] = useState(false);
 
   const handleEditClick = () => {
@@ -20,17 +20,6 @@ const Course = ({
   const handleCancelClick = () => {
     setIsEditing(false);
   };
-
-  const handleInputChange = (e) => {
-    e.stopPropagation();
-    const { name, value } = e.target;
-    setEditedCourse((prevCourse) => ({
-      ...prevCourse,
-      [name]: value,
-    }));
-  };
-
-  const handleOnSubmit = () => {};
 
   return (
     <div
@@ -49,37 +38,29 @@ const Course = ({
     >
       {conflicted.some(
         (conflictedItem) => conflictedItem.courseCode === courseCode
-      ) ? 
-        null : (
+      ) ? null : (
         <button
           onClick={() => {
             setAdded(!added);
             toggleSelected(courseCode, courseDetails);
           }}
+          className={styles.addbutton}
         >
           {added ? "Remove" : "Add"}
         </button>
       )}
       {isEditing ? (
         <CourseEditor
-          course={editedCourse}
-          closeEditor={handleCancelClick}
-          handleInputChange={handleInputChange}
-          handleOnSubmit={handleOnSubmit}
+          courseCode={courseCode}
+          courseDetails={courseDetails}
+          onCancel={handleCancelClick}
         />
       ) : (
-        <>
-          <div className={styles.info}>
-            <h2>
-              {courseDetails.term} CS {courseCode}
-            </h2>
-            <p>{courseDetails.title}</p>
-          </div>
-          <div className={styles.meets}>
-            <p>{courseDetails.meets}</p>
-          </div>
-          <button onClick={handleEditClick}>Edit</button>
-        </>
+        <CourseCard
+          courseCode={courseCode}
+          courseDetails={courseDetails}
+          handleEditClick={handleEditClick}
+        ></CourseCard>
       )}
     </div>
   );

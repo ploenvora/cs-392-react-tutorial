@@ -4,6 +4,7 @@ import "./App.css";
 import Banner from "./components/Banner";
 import CourseList from "./components/CourseList";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const queryClient = new QueryClient();
 const title = "CS Courses for 2018-2019";
@@ -11,10 +12,12 @@ const title = "CS Courses for 2018-2019";
 const App = () => {
   return (
     <Fragment>
-      <QueryClientProvider client={queryClient}>
-        <Banner title={title}></Banner>
-        <CourseList></CourseList>
-      </QueryClientProvider>
+      <Router>
+        <QueryClientProvider client={queryClient}>
+          <Banner title={title}></Banner>
+          <CourseList></CourseList>
+        </QueryClientProvider>
+      </Router>
     </Fragment>
   );
 };

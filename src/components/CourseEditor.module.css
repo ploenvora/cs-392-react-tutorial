@@ -1,0 +1,64 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.input {
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s;
+  font-size: 15px;
+}
+
+.input:focus {
+  border-color: lightblue;
+  border-width: 2px;
+}
+
+.button {
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.cancel {
+  background-color: #ccc;
+  padding: 5px;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.submit {
+  background-color: pink;
+  padding: 5px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Message */
+.message {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #28a745;
+}
+
