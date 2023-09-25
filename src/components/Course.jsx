@@ -11,6 +11,7 @@ const Course = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedCourse, setEditedCourse] = useState(courseDetails);
+  const [added, setAdded] = useState(false);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -21,6 +22,7 @@ const Course = ({
   };
 
   const handleInputChange = (e) => {
+    e.stopPropagation();
     const { name, value } = e.target;
     setEditedCourse((prevCourse) => ({
       ...prevCourse,
@@ -32,7 +34,6 @@ const Course = ({
 
   return (
     <div
-      onClick={() => toggleSelected(courseCode, courseDetails)}
       className={`${styles.course} ${
         selected.some((selectedItem) => selectedItem.courseCode === courseCode)
           ? styles.selected
@@ -46,6 +47,19 @@ const Course = ({
           : ""
       }`}
     >
+      {conflicted.some(
+        (conflictedItem) => conflictedItem.courseCode === courseCode
+      ) ? 
+        null : (
+        <button
+          onClick={() => {
+            setAdded(!added);
+            toggleSelected(courseCode, courseDetails);
+          }}
+        >
+          {added ? "Remove" : "Add"}
+        </button>
+      )}
       {isEditing ? (
         <CourseEditor
           course={editedCourse}
