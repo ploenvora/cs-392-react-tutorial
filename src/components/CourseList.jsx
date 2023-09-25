@@ -2,6 +2,7 @@ import styles from "./CourseList.module.css";
 import { useJsonQuery } from "../utilities/fetch";
 import { haveTimeConflict } from "../utilities/timeConflict";
 import { useState, useEffect } from "react";
+import { fetchDataFromDatabase } from "../utilities/firebase";
 import Course from "./Course";
 import Modal from "./Modal";
 
@@ -27,9 +28,20 @@ const CoursePlanButton = ({ openModal }) => (
 );
 
 const CourseList = (props) => {
-  const url =
-    "https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php";
-  const [data, isLoading, error] = useJsonQuery(url);
+  const [data, setData] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      const fetchedData = await fetchDataFromDatabase();
+      setData(fetchedData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const [term, setTerm] = useState("Fall");
   const [selected, setSelected] = useState([]);
