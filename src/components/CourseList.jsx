@@ -1,7 +1,8 @@
 import styles from "./CourseList.module.css";
 import { haveTimeConflict } from "../utilities/timeConflict";
 import { useState, useEffect } from "react";
-import { useDbData } from "../utilities/firebase";
+import { useDbData, useAuthState } from "../utilities/firebase";
+import { useProfile } from "../utilities/profile";
 import Course from "./Course";
 import Modal from "./Modal";
 
@@ -27,7 +28,7 @@ const CoursePlanButton = ({ openModal }) => (
 );
 
 const CourseList = (props) => {
-  const [data, error] = useDbData("/")
+  const [data, error] = useDbData("/");
 
   const [term, setTerm] = useState("Fall");
   const [selected, setSelected] = useState([]);
@@ -85,32 +86,50 @@ const CourseList = (props) => {
     }
   }, [selected, data]);
 
+  const [profile, profileLoading, profileError] = useProfile();
+  const [user] = useAuthState();
+  const isUserAuthenticated = user !== null;
+
   return (
     <div>
-      <div className={styles.topbar}>
-        <FilterDropdown selectedTerm={term} setSelectedTerm={setTerm} />
-        <CoursePlanButton openModal={openModal} />
-        {open && <Modal open={open} close={closeModal} children={selected} />}
-      </div>
-      {data && data.courses ? (
-        <div className={styles.courses}>
-          {Object.entries(data.courses)
-            .filter(
-              ([courseCode, courseDetails]) => courseDetails.term === term
-            )
-            .map(([courseCode, courseDetails]) => (
-              <Course
-                key={courseCode}
-                courseCode={courseCode}
-                courseDetails={courseDetails}
-                selected={selected}
-                toggleSelected={toggleSelected}
-                conflicted={conflicted}
-              ></Course>
-            ))}
+      {profile.isAdmin && user ? (
+        <div>
+          <div className={styles.topbar}>
+            <FilterDropdown selectedTerm={term} setSelectedTerm={setTerm} />
+            <CoursePlanButton openModal={openModal} />
+            {open && (
+              <Modal open={open} close={closeModal} children={selected} />
+            )}
+          </div>
+          {data && data.courses ? (
+            <div className={styles.courses}>
+              {Object.entries(data.courses)
+                .filter(
+                  ([courseCode, courseDetails]) => courseDetails.term === term
+                )
+                .map(([courseCode, courseDetails]) => (
+                  <Course
+                    key={courseCode}
+                    courseCode={courseCode}
+                    courseDetails={courseDetails}
+                    selected={selected}
+                    toggleSelected={toggleSelected}
+                    conflicted={conflicted}
+                  ></Course>
+                ))}
+            </div>
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       ) : (
-        <p>Loading...</p>
+        <div>
+          {user ? (
+            <p className={styles.message}>You do not have access to any data!</p>
+          ) : (
+            <p className={styles.message}>Please sign in!</p>
+          )}
+        </div>
       )}
     </div>
   );

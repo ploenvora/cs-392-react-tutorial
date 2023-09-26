@@ -88,3 +88,9 @@
 .addbutton:hover {
   background-color: lightseagreen;
 }
+
+.message {
+  margin-left: 1rem;
+  font-size: 20px;
+  text-align: center;
+}

@@ -1,9 +1,9 @@
 import styles from "./CourseList.module.css";
 import { useAuthState } from "./../utilities/firebase";
+import { useProfile } from "./../utilities/profile";
 
 const CourseCard = ({ courseCode, courseDetails, handleEditClick }) => {
-  const [user] = useAuthState();
-  const isUserAuthenticated = user !== null;
+  const [profile, profileLoading, profileError] = useProfile();
   return (
     <div>
       <div className={styles.info}>
@@ -15,7 +15,7 @@ const CourseCard = ({ courseCode, courseDetails, handleEditClick }) => {
       <div className={styles.meets}>
         <p>{courseDetails.meets}</p>
       </div>
-      {isUserAuthenticated && (
+      {profile.isAdmin && (
         <button className={styles.editbutton} onClick={handleEditClick}>
           Edit
         </button>
